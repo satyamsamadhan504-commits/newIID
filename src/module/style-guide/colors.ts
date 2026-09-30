@@ -1,0 +1,16 @@
+export default {
+  primary: '#2152CB',
+  primary_dark: '#1A41A3',
+  background: '#F7F8FA',
+  surface: '#FFFFFF',
+  text: '#1A1A1A',
+  text_secondary: '#5C6770',
+  border: '#E2E6EA',
+  error: '#C62828',
+  white: '#FFFFFF',
+  overlay: 'rgba(0, 0, 0, 0.35)',
+  disabled_background: '#E8EEF8',
+  disabled_text: '#9AA8C7',
+  link: '#2152CB',
+  input_accent: '#2B7FFF',
+};

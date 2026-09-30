@@ -1,11 +1,31 @@
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+const path = require('path');
+const {getDefaultConfig} = require('@react-native/metro-config');
 
-/**
- * Metro configuration
- * https://reactnative.dev/docs/metro
- *
- * @type {import('@react-native/metro-config').MetroConfig}
- */
-const config = {};
+const config = getDefaultConfig(__dirname);
+const nanoidNonSecure = path.resolve(
+  __dirname,
+  'node_modules/nanoid/non-secure/index.js',
+);
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+if (!config.resolver.sourceExts.includes('cjs')) {
+  config.resolver.sourceExts.push('cjs');
+}
+
+const defaultResolveRequest = config.resolver.resolveRequest;
+
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName === 'nanoid/non-secure') {
+    return {
+      type: 'sourceFile',
+      filePath: nanoidNonSecure,
+    };
+  }
+
+  if (defaultResolveRequest) {
+    return defaultResolveRequest(context, moduleName, platform);
+  }
+
+  return context.resolveRequest(context, moduleName, platform);
+};
+
+module.exports = config;
